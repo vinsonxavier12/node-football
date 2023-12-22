@@ -8,6 +8,10 @@ router
   .post(playerController.createPlayer)
   .get(playerController.getAllPlayers);
 
-router.route("/:id").get(playerController.getPlayer);
+router
+  .route("/:id")
+  .get(playerController.getPlayer)
+  .put(playerController.updatePlayer)
+  .delete(playerController.deletePlayer);
 
 module.exports = router;

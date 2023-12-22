@@ -24,6 +24,8 @@ const playerSchema = new mongoose.Schema({
   },
   ranking: {
     type: Number,
+    required: [true, "Ranking is required"],
+    unique: [true, "Raking should be unique"],
   },
 });
 const Player = mongoose.model("Player", playerSchema);
