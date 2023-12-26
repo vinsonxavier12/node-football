@@ -8,16 +8,25 @@ exports.createPlayer = async (req, res) => {
       player: newPlayer,
     });
   } catch (err) {
+    if (err.code === 11000 && err.keyPattern) {
+      return res.status(400).json({
+        status: "Failed: Duplicate field",
+        message: `The field ${JSON.stringify(
+          err.keyPattern
+        )} is a duplicate value.  Please provide a unique value`,
+      });
+    }
     res.status(400).json({
       status: "failed",
       errMsg: err.message,
+      err,
     });
   }
 };
 
 exports.getAllPlayers = async (req, res) => {
   try {
-    const players = await Player.find();
+    const players = await Player.find(req.query);
     res.status(200).json({
       status: "success",
       players,
@@ -26,6 +35,7 @@ exports.getAllPlayers = async (req, res) => {
     res.status(400).json({
       status: "failed",
       errMsg: err.message,
+      err,
     });
   }
 };
